@@ -1,0 +1,35 @@
+Setting up local server 9 
+#apt-get update
+#apt-get install ansible
+#apt-get install python-pip
+#pip install boto
+
+1) create aws account
+2) get aws id and key for the ansible to create an instance -> IAM(Create one if doesn't exists) 
+3) Place the access key id and secret key .boto file of the user home
+#touch $HOME/.boto
+#vi .boto 
+AWS_ACCESS_KEY_ID=***********
+AWS_SECRET_ACCESS_KEY=***************
+Change .boto file permisssions to 600
+#chmod 600 .boto 
+4) create one directory in your home (example: test)
+#mkdir test
+5) crate user key for ec2 and download to local where your going to execute playbooks.
+6) create ansible.cfg and inventory files.
+vi ansible.cfg
+[defaults]
+inventory = inventory
+touch inventory
+7) execute the ec2.yaml file to create the ec2 instance
+#ansible-playbook ec2.yaml
+Make sure to update key file name and subnet ID as per your aws account
+8) get the ec2 instance ip and update the in inventory file
+vi inventory
+[webserver]
+
+7)Check if ansible is able to connect to ec2 instance:
+#ansible webserver -m ping --key-file= -u ec2-user
+8) Execute the webserver.yaml to configure the webserver
+ansible-playbook webserver.yaml
+

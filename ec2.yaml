@@ -1,0 +1,16 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Provision ec2 instances
+      local_action:
+        module: ec2
+        key_name: centos
+        instance_type: t2.micro
+        region: us-east-2
+        image: ami-0b500ef59d8335eee
+        wait: yes
+        group: default
+        count: 1
+        vpc_subnet_id: subnet-d87553b0
+        assign_public_ip: yes

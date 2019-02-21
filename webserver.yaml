@@ -1,0 +1,21 @@
+---
+- hosts: webserver
+  user: ec2-user
+  become: true
+  tasks:
+    - name: Install httpd package
+      yum:
+        name: httpd
+        state: installed
+    - name: Copy html file
+      copy:
+        content: "<html> <head> <title>Hello World</title> </head> <body> <h1>Hello World!</h1> </body> </html"
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+    - name: Start httpd service
+      service: 
+        name: httpd
+        enabled: yes
+        state: restarted
